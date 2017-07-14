@@ -1,0 +1,54 @@
+elasticsearch:
+  hosts:
+    - host: 127.0.0.1
+      port: 9200
+      protocol: http
+thresholds:
+  - indexPattern: "trawler-*"
+    name: "example1 service stopped"
+    threshold: 1
+    window: 60
+    poll: 10
+    limit: upper
+    query:
+      search: "stop"
+outputs:
+  - type: console
+  - type: email
+    smtp:
+      host: "smtp.example.com"
+      port: 465
+      user: example@bigcorp.com
+      pass: XXXXXXXXXXXXXXXX
+      ssl: true
+    from: example@example.com
+    to:
+      - mary@example.com
+      - john@example.com
+
+# -----------------------------------------------------------------------------
+# Documentation:
+#
+# elasticsearch.hosts - all the Elasticsearch servers to watch
+#     elasticsearch.hosts[n].hosts - the host address of the Elasticsearch server
+#     elasticsearch.hosts[n].post - the REST port of the Elasticsearch server
+#     elasticsearch.protocol - the protocol to connect to Elasticsearch with
+# thresholds - all the thresholds to alert for
+#     thresholds[n].indexPattern - the Elasticsearch index with the relevant data
+#     thresholds[n].name - used as the title when an alert message is sent
+#     thresholds[n].query.search - the term to check log messages for
+#     thresholds[n].query.service - the service whose log messages should be checked (should match service specified in Trawler Shipper config)
+#     thresholds[n].threshold - the number of times the search term should be found before sending an alert
+#     thresholds[n].window - the time period for which the threshold number applies
+#     thresholds[n].poll - how often the alerter should check Elasticsearch
+#     thresholds[n].limit - either upper (send an alert if the threshold number is reached) or lower (send an alert if the threadhold number is not reached)
+# outputs
+#     type:console - keep this to print all alerts to STDOUT
+#     type:email
+#         smtp.host - the SMTP server address
+#         smtp.port - the port on which to communicate with the SMTP server
+#         smtp.user - the username (email) of the SMTP account holder
+#         smtp.pass - the password of the SMTP account holder
+#         smtp.ssl - whether or not to use an encrypted link
+#         from - the email address that should appear in the "from" field in the alert email
+#         to[n] - all the email addresses that alerts should be sent to

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+if [ -f /etc/default/towncrier ]; then
+    . /etc/default/towncrier
+fi
+
+JAR="/usr/share/towncrier/towncrier.jar"
+CONFIG="/etc/towncrier/config.yml"
+LOGFILE="/var/log/towncrier/towncrier.log"
+
+usage()
+{
+  cat << EOF
+usage: $0 [config-file]
+
+Runs Towncrier with the given configuration file.
+
+OPTIONS:
+  -h    Show this message
+EOF
+}
+
+OPTS=
+for arg in "$@"; do
+  case $arg in
+    "-h")
+      usage
+      exit 0
+      ;;
+    *)
+      CONFIG="$arg"
+     ;;
+  esac
+done
+
+exec java -jar "$JAR" --config "$CONFIG" >> "$LOGFILE" 2>&1
