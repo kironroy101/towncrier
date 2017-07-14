@@ -130,7 +130,7 @@ thresholds:
 To get email notifications, update the settings under the `outputs -> type:email`:
 * **smtp** - add your SMTP server's host address and port, along with your authentication information.
 * **from** - the email address that should appear in the "from" field of the email notification
-* **to** - the list of email addresses 
+* **to** - the list of email addresses to send notifcations to
 
 ### Reload `trawler-connector`
 
